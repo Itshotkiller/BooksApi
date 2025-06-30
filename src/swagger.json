@@ -1,0 +1,146 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Books Api",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "noauthAuth": {
+                "type": "http",
+                "scheme": "noauth"
+            }
+        }
+    },
+    "paths": {
+        "/books/{bookId}/reviews": {
+            "get": {
+                "tags": [
+                    "default"
+                ],
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the book to fetch"
+                    }
+                ],
+                "summary": "Get Reviews By Book Id",
+                "security": [
+                    {
+                        "noauthAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "default"
+                ],
+                "parameters": [
+                    {
+                        "name": "bookId",
+                        "in": "path",
+                        "required": true,
+                        "type": "string",
+                        "description": "ID of the book to fetch"
+                    }
+                ],
+                "summary": "Post review for a Book",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "content": "awesome book",
+                                    "rating": 4
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "noauthAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/books": {
+            "get": {
+                "tags": [
+                    "default"
+                ],
+                "summary": "Get All Books",
+                "security": [
+                    {
+                        "noauthAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "default"
+                ],
+                "summary": "Create a Book",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "example": {
+                                    "title": "test",
+                                    "author": "test"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "noauthAuth": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
