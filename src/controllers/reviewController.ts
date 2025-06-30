@@ -26,18 +26,17 @@ export const createReview = async (req: Request, res: Response) => {
 
 export const getReviewsForBook = async (req: Request, res: Response) => {
     try {
-        const reviews = await reviewRepo.find({
-            where: { book: { id: parseInt(req.params.bookId) } },
-        });
         const cachedData = await redis.get(`reviews:${req.params.bookId}`);
-        console.log(JSON.parse(cachedData))
         if (cachedData) {
             res.json(JSON.parse(cachedData));
             return
         } else {
+            const reviews = await reviewRepo.find({
+                where: { book: { id: parseInt(req.params.bookId) } },
+            });
             await redis.set(`reviews:${req.params.bookId}`, JSON.stringify(reviews), 'EX', 3600); // Cache for 1 hour
+            res.json(reviews);
         }
-        res.json(reviews);
     } catch (err) {
         res.status(500).json({ error: "Failed to fetch reviews." });
     }

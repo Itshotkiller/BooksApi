@@ -20,16 +20,17 @@ export const createBook = async (req: Request, res: Response) => {
 
 export const getAllBooks = async (_req: Request, res: Response) => {
     try {
-        const books = await bookRepo.find({ relations: ["reviews"] });
         const cachedData = await redis.get('books');
 
         if (cachedData) {
             res.json(JSON.parse(cachedData));
             return
         } else {
+            const books = await bookRepo.find({ relations: ["reviews"] });
             await redis.set('books', JSON.stringify(books), 'EX', 3600); // Cache for 1 hour
+            res.json(books);
         }
-        res.json(books);
+
     } catch (err) {
         console.log(err)
         res.status(500).json({ error: "Failed to fetch books." });
